@@ -1,0 +1,48 @@
+{
+  "name": "ticketshow_admin_app",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@ckeditor/ckeditor5-build-classic": "^41.2.0",
+    "@ckeditor/ckeditor5-react": "^6.2.0",
+    "@headlessui/react": "^2.2.0",
+    "axios": "^1.6.8",
+    "ckeditor5-custom-build": "file:ckeditor5",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "dayjs": "^1.11.13",
+    "flatpickr": "^4.6.13",
+    "js-cookie": "^3.0.5",
+    "jsvectormap": "^1.6.0",
+    "next": "13.5.6",
+    "next-themes": "^0.4.4",
+    "nextjs-toploader": "^3.7.15",
+    "react": "^18",
+    "react-apexcharts": "^1.4.1",
+    "react-dom": "^18",
+    "react-quill": "^2.0.0",
+    "react-select": "^5.10.0",
+    "react-table": "^7.8.0",
+    "tailwind-merge": "^2.6.0"
+  },
+  "devDependencies": {
+    "@types/axios": "^0.14.0",
+    "@types/js-cookie": "^3.0.6",
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "@types/react-table": "^7.7.20",
+    "autoprefixer": "^10",
+    "postcss": "^8",
+    "prettier": "^3.4.2",
+    "prettier-plugin-tailwindcss": "^0.6.11",
+    "tailwindcss": "^3",
+    "typescript": "^5"
+  }
+}
