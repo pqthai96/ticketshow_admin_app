@@ -228,8 +228,8 @@ export function Sidebar() {
                     <MenuItem
                       className="flex items-center gap-3 py-3"
                       as="link"
-                      href="/support"
-                      isActive={pathname === "/support"}
+                      href="/feedbacks"
+                      isActive={pathname === "/feedbacks"}
                     >
                       <svg fill="#000000" height="25" width="25" version="1.1" id="Layer_1"
                            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 448">
@@ -250,7 +250,7 @@ export function Sidebar() {
                           </g>
                         </g>
                         </svg>
-                      <span>Support Request</span>
+                      <span>Support Feedbacks</span>
                     </MenuItem>
                   </li>
                 </ul>

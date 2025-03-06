@@ -11,6 +11,9 @@ export function EventTable({ className }: { className?: string }) {
   const [isEventDialogOpen, setIsEventDialogOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
+  // Thêm state mới để lưu các count
+  const [ticketCounts, setTicketCounts] = useState<{[key: string]: string}>({});
+
   // Add state for pagination and filtering
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
@@ -20,10 +23,11 @@ export function EventTable({ className }: { className?: string }) {
 
   useEffect(() => {
     fetchEvents();
-  }, [currentPage, statusFilter]); // Add statusFilter as dependency
+  }, [currentPage, statusFilter]);
 
   const fetchEvents = () => {
     setIsLoading(true);
+    setTicketCounts({}); // Reset ticket counts
 
     let endpoint = '/events';
     if (statusFilter === 'active') {
@@ -34,20 +38,64 @@ export function EventTable({ className }: { className?: string }) {
 
     axiosClient.get(`${endpoint}?no=${currentPage}&limit=${pageSize}`)
       .then((resp: any) => {
-        setEvents(resp.contents);
-        // If API returns pagination info, update state
+        const eventsList = resp.contents || [];
+
+        // Set events
+        setEvents(eventsList);
+
+        // Set pagination info
         if (resp.totalPages) setTotalPages(resp.totalPages);
         if (resp.totalItems) setTotalItems(resp.totalItems);
+
+        // Fetch counts for all events
+        eventsList.forEach((event: any) => {
+          // Set a temporary "Loading..." value
+          setTicketCounts(prev => ({
+            ...prev,
+            [event.id]: "Loading..."
+          }));
+
+          // Fetch the actual count
+          axiosClient.get(`/events/count/${event.id}`)
+            .then((countResp: any) => {
+              console.log(`Count for event ${event.id}:`, countResp); // For debugging
+
+              // Check if response has the expected data
+              const countValue = countResp.data !== undefined ? countResp.data : countResp;
+
+              // Store count with proper label
+              const displayValue = event.type === true ?
+                `${countValue} tickets` :
+                `${countValue} seats`;
+
+              setTicketCounts(prev => ({
+                ...prev,
+                [event.id]: displayValue
+              }));
+            })
+            .catch(error => {
+              console.error(`Error fetching count for event ${event.id}:`, error);
+              // Set default value on error
+              setTicketCounts(prev => ({
+                ...prev,
+                [event.id]: event.type ? "0 tickets" : "0 seats"
+              }));
+            });
+        });
+
+        setIsLoading(false);
       })
-      .catch(error => console.error(`Failed to fetch events:`, error))
-      .finally(() => setIsLoading(false));
+      .catch(error => {
+        console.error("Failed to fetch events:", error);
+        setEvents([]);
+        setIsLoading(false);
+      });
   };
 
   // Handle filter change
   const handleStatusFilterChange = (newStatus: string) => {
     setStatusFilter(newStatus);
     setCurrentPage(0); // Reset to first page when filter changes
-    // No need to call fetchEvents here, it will be triggered by useEffect
   };
 
   const getRealDate = (dateStr: any) => {
@@ -78,7 +126,11 @@ export function EventTable({ className }: { className?: string }) {
     }, 300);
   };
 
-  // Fixed to not use handleEventUpdated anymore
+  // Hàm helper để lấy giá trị count hiển thị
+  const getDisplayCount = (event: any) => {
+    if (!event || !event.id) return "N/A";
+    return ticketCounts[event.id] || "Loading...";
+  };
 
   return (
     <div
@@ -133,6 +185,7 @@ export function EventTable({ className }: { className?: string }) {
                 <TableHead>Type</TableHead>
                 <TableHead>Organiser</TableHead>
                 <TableHead>Started At</TableHead>
+                <TableHead>Tickets/Seats Sale</TableHead>
                 <TableHead>Status</TableHead>
                 <TableHead>Action</TableHead>
               </TableRow>
@@ -160,6 +213,7 @@ export function EventTable({ className }: { className?: string }) {
                     </TableCell>
                     <TableCell>{event.organiserDTO.name}</TableCell>
                     <TableCell>{getRealDate(event.startedAt)}</TableCell>
+                    <TableCell>{getDisplayCount(event)}</TableCell>
                     <TableCell>{event.statusDTO.id === 1 ? (
                       <span className="px-4 py-2 border border-green-500 text-green-500 rounded-full text-xs font-medium">
                         ACTIVE
