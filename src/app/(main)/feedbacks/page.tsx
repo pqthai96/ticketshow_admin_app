@@ -2,7 +2,18 @@
 
 import React from "react";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
-import { FeedbackTable } from "@/components/use-components/feedbacks/feedback-table";
+import dynamic from "next/dynamic";
+
+const FeedbackTable = dynamic(
+  () =>
+    import("@/components/use-components/feedbacks/feedback-table").then((mod) => ({
+      default: mod.FeedbackTable,
+    })),
+  {
+    ssr: false,
+    loading: () => <div>Loading...</div>,
+  },
+);
 
 function Feedbacks() {
   return (
