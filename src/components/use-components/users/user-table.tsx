@@ -17,8 +17,8 @@ export function UserTable({ className }: { className?: string }) {
   // Add state for client-side pagination
   const [currentPage, setCurrentPage] = useState(0);
   const pageSize = 10; // Number of users per page
-  const [statusFilter, setStatusFilter] = useState("all"); // "all", "active", or "inactive"
-  const [verificationFilter, setVerificationFilter] = useState("all"); // "all", "verified", or "unverified"
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [verificationFilter, setVerificationFilter] = useState("all");
 
   useEffect(() => {
     fetchUsers();
@@ -55,9 +55,9 @@ export function UserTable({ className }: { className?: string }) {
 
     // Apply verification filter
     if (verificationFilter === "verified") {
-      result = result.filter(user => user.isVerified === true);
+      result = result.filter(user => user.verified === true);
     } else if (verificationFilter === "unverified") {
-      result = result.filter(user => user.isVerified === false);
+      result = result.filter(user => user.verified === false);
     }
 
     setFilteredUsers(result);
@@ -196,13 +196,13 @@ export function UserTable({ className }: { className?: string }) {
                         {getFullAddress(user)}
                       </TableCell>
                       <TableCell>
-                        {user.gender === true ? "Male" : "Female"}
+                        {user.gender === false ? "Male" : "Female"}
                       </TableCell>
                       <TableCell>
                         {getFormattedDate(user.dayOfBirth)}
                       </TableCell>
                       <TableCell>
-                        {user.isVerified ? (
+                        {user.verified === true ? (
                           <span
                             className="px-4 py-2 border border-green-500 text-green-500 rounded-full text-xs font-medium">
                           VERIFIED

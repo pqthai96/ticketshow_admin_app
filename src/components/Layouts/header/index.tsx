@@ -8,8 +8,12 @@ import { MenuIcon } from "./icons";
 import { Notification } from "./notification";
 import { ThemeToggleSwitch } from "./theme-toggle";
 import { UserInfo } from "./user-info";
+import { useAuth } from "@/context/auth-context";
+import { useEffect, useState } from "react";
+import axiosClient from "@/api-client/api-client";
 
 export function Header() {
+
   const { toggleSidebar, isMobile } = useSidebarContext();
 
   return (

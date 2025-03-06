@@ -1,4 +1,5 @@
 "use client";
+
 import { EmailIcon, PasswordIcon } from "@/assets/icons";
 import Link from "next/link";
 import React, { useState } from "react";
@@ -40,7 +41,7 @@ export default function SigninWithPassword() {
         className="mb-4 [&_input]:py-[15px]"
         placeholder="Enter your email"
         name="email"
-        handleChange={handleChange}
+        onChange={handleChange}
         value={data.email}
         icon={<EmailIcon />}
       />
@@ -51,7 +52,7 @@ export default function SigninWithPassword() {
         className="mb-5 [&_input]:py-[15px]"
         placeholder="Enter your password"
         name="password"
-        handleChange={handleChange}
+        onChange={handleChange}
         value={data.password}
         icon={<PasswordIcon />}
       />

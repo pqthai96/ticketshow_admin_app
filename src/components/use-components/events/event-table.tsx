@@ -2,7 +2,8 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { cn } from "@/lib/utils";
 import React, { useEffect, useState } from "react";
 import axiosClient from "@/api-client/api-client";
-import { EventDialogPanel } from "@/components/use-components/events/event-dialog-panel";
+import { EventDialogPanel } from "@/components/use-components/events/event-dialog";
+// import { EventDialogPanel } from "@/components/use-components/events/event-dialog-panel";
 
 export function EventTable({ className }: { className?: string }) {
   const [events, setEvents] = useState<any>([]);

@@ -1,5 +1,3 @@
-"use client";
-
 import { useClickOutside } from "@/hooks/use-click-outside";
 import { cn } from "@/lib/utils";
 import { SetStateActionType } from "@/types/set-state-action-type";

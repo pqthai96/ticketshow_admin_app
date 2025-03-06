@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React from "react";
 
-export const ImagePreview = ({ src, altText, className }: {src: any, altText: any, className: any}) => {
+export const ImagePreview = ({ src, altText, className }: {src: any, altText: any, className?: any}) => {
   if (!src) return null;
 
   return (
